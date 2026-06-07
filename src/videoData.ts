@@ -308,10 +308,10 @@ export const programs: PlaylistProgram[] = [
     videoIds: [
       "acute-exacerbation",
       "seretide-mdi",
-      "symbicort-mdi",
       "seretide-mask-spacer",
       "seretide-mouthpiece-spacer",
       "seretide-mouthpiece-spacer-short",
+      "symbicort-mdi",
       "spacer-cleaning",
       "disease-overview",
       "nutrition-taiwanese",
