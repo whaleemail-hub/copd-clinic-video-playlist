@@ -259,6 +259,53 @@ button {
   background: #000000;
 }
 
+.start-overlay {
+  min-height: 100%;
+  display: grid;
+  place-items: center;
+  padding: 2rem;
+  background:
+    radial-gradient(circle at 50% 22%, rgba(94, 234, 212, 0.18), transparent 32%),
+    linear-gradient(145deg, rgba(15, 23, 42, 0.9), rgba(7, 19, 31, 0.98));
+  text-align: center;
+}
+
+.start-overlay > div {
+  max-width: 720px;
+}
+
+.start-overlay h2 {
+  margin: 1rem 0 0.75rem;
+  color: #ffffff;
+  font-size: clamp(2rem, 4vw, 4rem);
+  line-height: 1.15;
+}
+
+.start-overlay p {
+  margin: 0 auto 1.5rem;
+  max-width: 620px;
+  color: #c9d8e8;
+  font-size: clamp(1rem, 1.7vw, 1.35rem);
+  line-height: 1.7;
+}
+
+.start-overlay button {
+  min-height: 64px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+  border: 0;
+  border-radius: 1rem;
+  background: #14b8a6;
+  color: #ffffff;
+  padding: 1rem 1.6rem;
+  font-size: 1.25rem;
+  font-weight: 950;
+  cursor: pointer;
+  box-shadow: 0 16px 42px rgba(20, 184, 166, 0.28);
+}
+
 .now-playing > div:first-child {
   display: flex;
   flex-wrap: wrap;

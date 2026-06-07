@@ -18,10 +18,14 @@ function formatTime(seconds: number) {
   return `${m}:${String(s).padStart(2, "0")}`;
 }
 
-function sourceFor(video: ClinicVideo) {
-  if (video.type !== "youtube") return video.src;
+function sourceFor(video: ClinicVideo, shouldAutoplay: boolean) {
+  if (video.type === "mp4") return video.src;
   const separator = video.src.includes("?") ? "&" : "?";
-  return `${video.src}${separator}autoplay=1&mute=1&controls=1&rel=0&playsinline=1`;
+  const autoplayParams = shouldAutoplay ? "autoplay=1&mute=1&" : "";
+  if (video.type === "youtube") {
+    return `${video.src}${separator}${autoplayParams}controls=1&rel=0&playsinline=1`;
+  }
+  return `${video.src}${separator}${autoplayParams}playsinline=1`;
 }
 
 function buildQueue(videoIds: string[]) {
@@ -46,7 +50,8 @@ function ProgramPlayer() {
   const [programId, setProgramId] = useState(programs[0].id);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [secondsLeft, setSecondsLeft] = useState(0);
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [hasStarted, setHasStarted] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(false);
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const playerRef = useRef<HTMLDivElement | null>(null);
 
@@ -62,8 +67,8 @@ function ProgramPlayer() {
 
   useEffect(() => {
     setCurrentIndex(0);
-    setIsPlaying(true);
-  }, [programId]);
+    if (hasStarted) setIsPlaying(true);
+  }, [hasStarted, programId]);
 
   useEffect(() => {
     setSecondsLeft(currentVideo?.durationSeconds || 0);
@@ -97,8 +102,14 @@ function ProgramPlayer() {
     setCurrentIndex((index) => (index + 1) % queue.length);
   };
 
+  const startContinuousPlay = () => {
+    setHasStarted(true);
+    setIsPlaying(true);
+  };
+
   const restart = () => {
     setCurrentIndex(0);
+    setHasStarted(true);
     setIsPlaying(true);
   };
 
@@ -205,7 +216,21 @@ function ProgramPlayer() {
         </div>
 
         <div className="video-frame">
-          {currentVideo.type === "mp4" ? (
+          {!hasStarted ? (
+            <div className="start-overlay">
+              <div>
+                <span className="pill">門診電視播放模式</span>
+                <h2>開始自動輪播</h2>
+                <p>
+                  點一次後，系統會依照估計片長自動切換下一支影片，播完兩輪後回到第一支繼續循環。
+                </p>
+                <button type="button" onClick={startContinuousPlay}>
+                  <Play size={24} />
+                  開始自動輪播
+                </button>
+              </div>
+            </div>
+          ) : currentVideo.type === "mp4" ? (
             <video
               key={`${currentVideo.id}-${currentVideo.round}`}
               ref={videoRef}
@@ -218,7 +243,7 @@ function ProgramPlayer() {
           ) : (
             <iframe
               key={`${currentVideo.id}-${currentVideo.round}`}
-              src={sourceFor(currentVideo)}
+              src={sourceFor(currentVideo, hasStarted && isPlaying)}
               title={currentVideo.title}
               allow="autoplay; encrypted-media; picture-in-picture"
               allowFullScreen
