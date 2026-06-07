@@ -21,7 +21,7 @@ function formatTime(seconds: number) {
 function sourceFor(video: ClinicVideo, shouldAutoplay: boolean) {
   if (video.type === "mp4") return video.src;
   const separator = video.src.includes("?") ? "&" : "?";
-  const autoplayParams = shouldAutoplay ? "autoplay=1&mute=1&" : "";
+  const autoplayParams = shouldAutoplay ? "autoplay=1&" : "";
   if (video.type === "youtube") {
     return `${video.src}${separator}${autoplayParams}controls=1&rel=0&playsinline=1`;
   }
@@ -238,7 +238,6 @@ function ProgramPlayer() {
               key={`${currentVideo.id}-${currentVideo.round}`}
               ref={videoRef}
               src={currentVideo.src}
-              muted
               playsInline
               controls
               onEnded={goNext}
@@ -267,7 +266,7 @@ function ProgramPlayer() {
         </div>
 
         <p className="note">
-          目前片長為估計值。YouTube、台大媒體與 Google Drive 影片可能受到來源網站播放權限或自動播放限制影響；若某支影片無法自動播放，可使用「下一支」繼續輪播。
+          目前片長為估計值。系統不會主動將下一支影片靜音；若瀏覽器或來源網站限制有聲自動播放，請在影片控制列點一次播放或開啟音量，再繼續輪播。
         </p>
       </section>
     </main>
