@@ -146,8 +146,8 @@ export const videos: ClinicVideo[] = [
     title: "必肺暢 Breztri 使用方式",
     src: "https://www.youtube.com/embed/Y_Jb_KhBmSU",
     type: "youtube",
-    durationSeconds: 4 * 60,
-    durationNote: "估計值",
+    durationSeconds: 2 * 60 + 6,
+    durationNote: "實際片長 2:06",
   },
   {
     id: "trelegy",
@@ -155,8 +155,8 @@ export const videos: ClinicVideo[] = [
     title: "肺樂喜 Trelegy 使用方式",
     src: "https://www.youtube.com/embed/-NKvp1AjpVg",
     type: "youtube",
-    durationSeconds: 4 * 60,
-    durationNote: "估計值",
+    durationSeconds: 2 * 60 + 14,
+    durationNote: "實際片長 2:14",
   },
   {
     id: "relvar",
@@ -164,8 +164,8 @@ export const videos: ClinicVideo[] = [
     title: "潤娃 Relvar 使用方式",
     src: "https://media.ntuh.gov.tw/media/e/871",
     type: "embed",
-    durationSeconds: 4 * 60,
-    durationNote: "估計值",
+    durationSeconds: 2 * 60 + 33,
+    durationNote: "實際片長 2:33",
   },
   {
     id: "anoro",
@@ -173,8 +173,8 @@ export const videos: ClinicVideo[] = [
     title: "安肺樂 Anoro 使用方式",
     src: "https://drive.google.com/file/d/1gN9tUbjwndWDD4DBiBpNPziXPkYk2TVv/preview",
     type: "embed",
-    durationSeconds: 4 * 60,
-    durationNote: "估計值",
+    durationSeconds: 1 * 60 + 50,
+    durationNote: "實際片長 1:50",
   },
   {
     id: "ultibro",
@@ -182,8 +182,8 @@ export const videos: ClinicVideo[] = [
     title: "昂帝博 Ultibro 使用方式",
     src: "https://drive.google.com/file/d/1ccC-xynG8IfAlAwkZAC2kBkIECevH6-9/preview",
     type: "embed",
-    durationSeconds: 4 * 60,
-    durationNote: "估計值",
+    durationSeconds: 6 * 60 + 13,
+    durationNote: "實際片長 6:13",
   },
   {
     id: "spacer-cleaning",
@@ -269,7 +269,7 @@ export const videos: ClinicVideo[] = [
   {
     id: "oxygen-equipment",
     category: "氧氣治療",
-    title: "氧氣設備操作教學",
+    title: "居家氧氣治療",
     src: "https://www.youtube.com/embed/Af5pNzaub5g",
     type: "youtube",
     durationSeconds: 3 * 60 + 55,
@@ -325,6 +325,7 @@ export const programs: PlaylistProgram[] = [
     title: "組合 C：三合一吸入劑與日常照護",
     subtitle: "聚焦較新的吸入劑示範，搭配營養、痰液清除與氧氣安全。",
     description: "Breztri、Trelegy、Relvar、Anoro、Ultibro、營養、肺復原與氧氣。",
+    rounds: 3,
     videoIds: [
       "disease-overview",
       "breztri",
