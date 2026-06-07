@@ -15,11 +15,12 @@ export type PlaylistProgram = {
   title: string;
   subtitle: string;
   description: string;
+  rounds?: number;
   videoIds: string[];
 };
 
 export const TARGET_PROGRAM_SECONDS = 90 * 60;
-export const CLINIC_SESSION_ROUNDS = 2;
+export const DEFAULT_CLINIC_SESSION_ROUNDS = 2;
 
 export const videos: ClinicVideo[] = [
   {
@@ -28,8 +29,8 @@ export const videos: ClinicVideo[] = [
     title: "肺阻塞教學影片",
     src: "https://www.youtube.com/embed/vv9AZ9U2iZI",
     type: "youtube",
-    durationSeconds: 12 * 60,
-    durationNote: "估計值，請依實際片長校正",
+    durationSeconds: 4 * 60 + 48,
+    durationNote: "實際片長 4:48",
   },
   {
     id: "acute-exacerbation",
@@ -37,8 +38,8 @@ export const videos: ClinicVideo[] = [
     title: "急性惡化教學影片",
     src: "https://www.youtube.com/embed/XIgI8DaCWdg",
     type: "youtube",
-    durationSeconds: 10 * 60,
-    durationNote: "估計值，請依實際片長校正",
+    durationSeconds: 4 * 60 + 5,
+    durationNote: "實際片長 4:05",
   },
   {
     id: "respimat-load",
@@ -46,8 +47,8 @@ export const videos: ClinicVideo[] = [
     title: "舒沛噴吸入劑裝填方式",
     src: "https://media.ntuh.gov.tw/media/e/857",
     type: "embed",
-    durationSeconds: 3 * 60,
-    durationNote: "估計值",
+    durationSeconds: 1 * 60 + 21,
+    durationNote: "實際片長 1:21",
   },
   {
     id: "respimat-use",
@@ -55,8 +56,8 @@ export const videos: ClinicVideo[] = [
     title: "舒沛噴吸入劑使用方式",
     src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663374529761/fdzmElOyFOHjAYeb.mp4",
     type: "mp4",
-    durationSeconds: 3 * 60,
-    durationNote: "估計值；MP4 可由瀏覽器讀取實際片長",
+    durationSeconds: 3 * 60 + 29,
+    durationNote: "實際片長 3:29",
   },
   {
     id: "respimat-spacer",
@@ -64,8 +65,8 @@ export const videos: ClinicVideo[] = [
     title: "舒沛噴吸入劑加口含式吸藥輔助器",
     src: "https://media.ntuh.gov.tw/media/e/869",
     type: "embed",
-    durationSeconds: 4 * 60,
-    durationNote: "估計值",
+    durationSeconds: 2 * 60 + 19,
+    durationNote: "實際片長 2:19",
   },
   {
     id: "berotec-mdi",
@@ -73,8 +74,8 @@ export const videos: ClinicVideo[] = [
     title: "備勞喘定量噴霧吸入劑使用方式",
     src: "https://media.ntuh.gov.tw/media/e/862",
     type: "embed",
-    durationSeconds: 3 * 60,
-    durationNote: "估計值",
+    durationSeconds: 1 * 60 + 48,
+    durationNote: "實際片長 1:48",
   },
   {
     id: "bevespi",
@@ -82,8 +83,8 @@ export const videos: ClinicVideo[] = [
     title: "必肺宜 Bevespi 使用方式",
     src: "https://www.youtube.com/embed/RSAHSGxYY90",
     type: "youtube",
-    durationSeconds: 4 * 60,
-    durationNote: "估計值",
+    durationSeconds: 2 * 60 + 4,
+    durationNote: "實際片長 2:04",
   },
   {
     id: "seretide-mdi",
@@ -190,8 +191,8 @@ export const videos: ClinicVideo[] = [
     title: "Lung 你吃對營養 COPD 營養照護",
     src: "https://files.manuscdn.com/user_upload_by_module/session_file/310519663374529761/VHLuPTGqTLqhWdrt.mp4",
     type: "mp4",
-    durationSeconds: 13 * 60,
-    durationNote: "估計值；MP4 可由瀏覽器讀取實際片長",
+    durationSeconds: 18 * 60 + 28,
+    durationNote: "實際片長 18:28",
   },
   {
     id: "nutrition-taiwanese",
@@ -208,8 +209,8 @@ export const videos: ClinicVideo[] = [
     title: "呼吸道痰液清除方法",
     src: "https://www.youtube.com/embed/vq1yjbj4_G4",
     type: "youtube",
-    durationSeconds: 8 * 60,
-    durationNote: "估計值",
+    durationSeconds: 5 * 60 + 6,
+    durationNote: "實際片長 5:06",
   },
   {
     id: "diaphragmatic-breathing",
@@ -217,8 +218,8 @@ export const videos: ClinicVideo[] = [
     title: "腹式呼吸教學",
     src: "https://www.youtube.com/embed/g2nsbUEZOQQ",
     type: "youtube",
-    durationSeconds: 6 * 60,
-    durationNote: "估計值",
+    durationSeconds: 2 * 60 + 42,
+    durationNote: "實際片長 2:42",
   },
   {
     id: "resistance-band",
@@ -244,8 +245,8 @@ export const videos: ClinicVideo[] = [
     title: "肺部復健運動",
     src: "https://www.youtube.com/embed/kQDkuZnWtUc",
     type: "youtube",
-    durationSeconds: 12 * 60,
-    durationNote: "估計值",
+    durationSeconds: 3 * 60 + 22,
+    durationNote: "實際片長 3:22",
   },
   {
     id: "oxygen-equipment",
@@ -253,8 +254,8 @@ export const videos: ClinicVideo[] = [
     title: "氧氣設備操作教學",
     src: "https://www.youtube.com/embed/Af5pNzaub5g",
     type: "youtube",
-    durationSeconds: 10 * 60,
-    durationNote: "估計值",
+    durationSeconds: 3 * 60 + 55,
+    durationNote: "實際片長 3:55",
   },
 ];
 
@@ -264,6 +265,7 @@ export const programs: PlaylistProgram[] = [
     title: "組合 A：基礎認識與常見吸入劑",
     subtitle: "適合上午診開場，先建立疾病觀念，再穿插 5 種常見吸入劑示範。",
     description: "疾病認識、急性惡化、舒沛噴、備勞喘、必肺宜、營養與肺復原。",
+    rounds: 3,
     videoIds: [
       "disease-overview",
       "respimat-load",

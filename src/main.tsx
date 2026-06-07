@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
 import { Maximize2, Pause, Play, RotateCcw, SkipForward, Tv } from "lucide-react";
-import { CLINIC_SESSION_ROUNDS, TARGET_PROGRAM_SECONDS, programs, videos, type ClinicVideo } from "./videoData";
+import { DEFAULT_CLINIC_SESSION_ROUNDS, TARGET_PROGRAM_SECONDS, programs, videos, type ClinicVideo } from "./videoData";
 import "./styles.css";
 
 type PlayItem = ClinicVideo & {
@@ -28,7 +28,7 @@ function sourceFor(video: ClinicVideo, shouldAutoplay: boolean) {
   return `${video.src}${separator}${autoplayParams}playsinline=1`;
 }
 
-function buildQueue(videoIds: string[]) {
+function buildQueue(videoIds: string[], rounds = DEFAULT_CLINIC_SESSION_ROUNDS) {
   const base = videoIds
     .map((id, index) => {
       const video = videos.find((item) => item.id === id);
@@ -37,7 +37,7 @@ function buildQueue(videoIds: string[]) {
     })
     .filter(Boolean) as PlayItem[];
 
-  return Array.from({ length: CLINIC_SESSION_ROUNDS }).flatMap((_, roundIndex) =>
+  return Array.from({ length: rounds }).flatMap((_, roundIndex) =>
     base.map((item) => ({ ...item, round: roundIndex + 1 }))
   );
 }
@@ -56,8 +56,9 @@ function ProgramPlayer() {
   const playerRef = useRef<HTMLDivElement | null>(null);
 
   const program = programs.find((item) => item.id === programId) || programs[0];
-  const queue = useMemo(() => buildQueue(program.videoIds), [program.videoIds]);
-  const baseVideos = useMemo(() => buildQueue(program.videoIds).filter((item) => item.round === 1), [program.videoIds]);
+  const programRounds = program.rounds || DEFAULT_CLINIC_SESSION_ROUNDS;
+  const queue = useMemo(() => buildQueue(program.videoIds, programRounds), [program.videoIds, programRounds]);
+  const baseVideos = useMemo(() => buildQueue(program.videoIds, 1), [program.videoIds]);
   const currentVideo = queue[currentIndex] || queue[0];
   const baseDuration = sumDuration(baseVideos);
   const sessionDuration = sumDuration(queue);
@@ -133,7 +134,9 @@ function ProgramPlayer() {
           <div className="program-list">
             {programs.map((item) => {
               const selected = item.id === programId;
-              const itemBase = buildQueue(item.videoIds).filter((video) => video.round === 1);
+              const itemRounds = item.rounds || DEFAULT_CLINIC_SESSION_ROUNDS;
+              const itemBase = buildQueue(item.videoIds, 1);
+              const itemBaseDuration = sumDuration(itemBase);
               return (
                 <button
                   key={item.id}
@@ -142,7 +145,7 @@ function ProgramPlayer() {
                   onClick={() => setProgramId(item.id)}
                 >
                   <span>{item.title}</span>
-                  <small>{formatTime(sumDuration(itemBase))} x 2 = {formatTime(sumDuration(itemBase) * 2)}</small>
+                  <small>{formatTime(itemBaseDuration)} x {itemRounds} = {formatTime(itemBaseDuration * itemRounds)}</small>
                 </button>
               );
             })}
@@ -222,7 +225,7 @@ function ProgramPlayer() {
                 <span className="pill">門診電視播放模式</span>
                 <h2>開始自動輪播</h2>
                 <p>
-                  點一次後，系統會依照估計片長自動切換下一支影片，播完兩輪後回到第一支繼續循環。
+                  點一次後，系統會依照影片片長自動切換下一支，播完 {programRounds} 輪後回到第一支繼續循環。
                 </p>
                 <button type="button" onClick={startContinuousPlay}>
                   <Play size={24} />
@@ -254,7 +257,7 @@ function ProgramPlayer() {
         <div className="now-playing">
           <div>
             <span className="pill">{currentVideo.category}</span>
-            <span className="pill">第 {currentVideo.round} 輪 / 共 {CLINIC_SESSION_ROUNDS} 輪</span>
+            <span className="pill">第 {currentVideo.round} 輪 / 共 {programRounds} 輪</span>
             <span className="pill">本輪第 {currentVideo.programIndex} 支</span>
           </div>
           <div className="countdown">
